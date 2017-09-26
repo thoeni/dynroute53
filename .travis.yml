@@ -1,0 +1,21 @@
+language: go
+go:
+- master
+install:
+  - go get -t -d -v ./...
+  - go get github.com/mitchellh/gox
+sudo: required
+before_deploy:
+  - gox -osarch="linux/arm linux/386 linux/amd64 windows/386 windows/amd64 darwin/386 darwin/amd64" -ldflags "-X main.AppVersion=$TRAVIS_TAG -X main.Sha=$TRAVIS_COMMIT" -output "dist/dynroute53-{{.OS}}-{{.Arch}}"
+  - sudo chmod +x ./dist/*
+deploy:
+  provider: releases
+  api_key:
+    secure: VPm1sm8/M0kitv7ownHf2fXIMpzcAWcC61t9q77NKh1JotcaaXzJhrfn5QNpP+Y7ly2/bGbO3ThtqGXQeOMLQJmS19nHDVo6QKLHomsOJBaJ2pEfLXmtyb5KcS5mXziiNvW1zL880j0Aeoqn7kRdngY5MqF9u/4lDrvreHvQ25HMzH44N1dq9bbiNv2PbjmwkYr/oUypQpDRvM25+XNVmywNHnvNx2Hq3YYZ5F0D+vFkIsiKhijv56VgdqsqR6zgTY9vRT4jdKL9SwQ1mOi1zsaXaoqGP8ERIVpqW+bhYtKoJ96i3Tn+uNhGwm5V83QRZKBpDhknFz1GHdZCFLypFJ8wHdog6h29aQewNr3zK7D2/HlQ9po0BFarw15rk61PNpA2WTva18Ow9o7WGwcA5uqPS+4mH8l4ZYCNgeOFsubddwP5atIsfVIRaMP/nHqqtyecF/gxwdJLHzOnHCD53K8u7W122qXSSr7ALsQrhJbV55BmE38Sil9ElSOgqZucHDE1Se9YVvMKQsAZ8MpMxi2yFjd/IT+bkZxcpFfJa14tMsCcWrPaDyDFDK1eblDJMLF+Ox0vLsUfufLO7+l2nrkPMZovCAUe24kR7UfnuVO6DYIbr8hEiFQ03smdkcKCQwVjNmB7uvMi0Y4hhiI+gjs5L6uAk1HEh0jIIS+Yj3k=
+  file_glob: true
+  file: dist/*
+  skip_cleanup: true
+  on:
+    repo: thoeni/dynroute53
+    tags: true
+    condition: "$TRAVIS_TAG =~ ^v[0-9]+(.[0-9]+)*"
