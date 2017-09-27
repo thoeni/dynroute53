@@ -4,7 +4,7 @@
 This small program updates an Amazon AWS Route53 `A` Record for the specified `-domain` attached to a specified `-hostedZoneID` with the external IP address exposed to the internet.
 
 ### Use case
-I built this to run in on a **Raspberry 🍓 PI** and I scheduled it with a `cron` job to run every minute: the program creates a local cache on the filesystem and if the external IP is equal to the one stored in the `dynroute.cache` file it won't update **Route53**, otherwise it will call the Amazon service to update the `A` record.
+I built this to run on a **Raspberry 🍓 PI** and I scheduled it with a `cron` job to run every minute: the program creates a local cache on the filesystem and if the external IP is equal to the one stored in the `dynroute.cache` file it won't update **Route53**, otherwise it will call the Amazon service to update the `A` record.
 
 This helps me to reach my Raspberry PI by using a domain name even if the connection gets reset as within at most one minute the domain will be reattached to the correct (new) IP address.
 
