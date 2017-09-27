@@ -2,10 +2,10 @@
 
 
 [[projects]]
+  branch = "master"
   name = "github.com/aws/aws-sdk-go"
-  packages = ["aws","aws/awserr","aws/awsutil","aws/client","aws/client/metadata","aws/corehandlers","aws/credentials","aws/credentials/ec2rolecreds","aws/credentials/endpointcreds","aws/credentials/stscreds","aws/defaults","aws/ec2metadata","aws/endpoints","aws/request","aws/session","aws/signer/v4","internal/shareddefaults","private/protocol","private/protocol/query","private/protocol/query/queryutil","private/protocol/rest","private/protocol/restxml","private/protocol/xml","private/protocol/xml/xmlutil","service/route53","service/sts"]
-  revision = "c29655f010eb79efd3df33ea20bbebb4fc80af95"
-  version = "v1.11.0"
+  packages = ["aws","aws/awserr","aws/awsutil","aws/client","aws/client/metadata","aws/corehandlers","aws/credentials","aws/credentials/ec2rolecreds","aws/credentials/endpointcreds","aws/credentials/stscreds","aws/defaults","aws/ec2metadata","aws/endpoints","aws/request","aws/session","aws/signer/v4","internal/shareddefaults","private/protocol","private/protocol/query","private/protocol/query/queryutil","private/protocol/rest","private/protocol/restxml","private/protocol/xml/xmlutil","service/route53","service/sts"]
+  revision = "dc2ec4f6c11c07b8fd830fb8ff20a8f1dc190c00"
 
 [[projects]]
   name = "github.com/go-ini/ini"
@@ -21,6 +21,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "4a59188f44533f388d8ee0408e35681d166e5beb170ca1c28d4ce352e1b1fff0"
+  inputs-digest = "64ec37bb4aabec68d0d12b0bcf8c3276f23313e321763dc9703630fb178939f5"
   solver-name = "gps-cdcl"
   solver-version = 1

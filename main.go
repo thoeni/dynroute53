@@ -21,6 +21,7 @@ func main() {
 
 	domain := flag.String("domain", "", "fully qualified domain name to update, eg. blog.mydomain.com")
 	hostedZoneID := flag.String("hostedZoneID", "", "AWS hosted zone ID (user must have permissions")
+	verbose := flag.Bool("verbose", true, "If false logs only when the IP must be updated on AWS (cache miss). Defaulted to true.")
 	flag.Parse()
 
 	if *domain == "" || *hostedZoneID == "" {
@@ -42,7 +43,9 @@ func main() {
 	cachedIP := string(bytes)
 
 	if cachedIP == ip {
-		fmt.Printf("[%s] No need to update:\t%s -> %s (cached %s)\n", now, *domain, ip, cachedIP)
+		if *verbose {
+			fmt.Printf("[%s] No need to update:\t%s -> %s (cached %s)\n", now, *domain, ip, cachedIP)
+		}
 		return
 	}
 
