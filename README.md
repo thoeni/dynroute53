@@ -1,5 +1,7 @@
 # Dynroute53
 
+[![Build Status](https://travis-ci.org/thoeni/dynroute53.svg?branch=master)](https://travis-ci.org/thoeni/dynroute53)
+
 ### Abstract
 This small program updates an Amazon AWS Route53 `A` Record for the specified `-domain` attached to a specified `-hostedZoneID` with the external IP address exposed to the internet.
 
@@ -38,12 +40,19 @@ To run this, you need:
 
 - `-domain`: the entire subdomain/domain (excluding the protocol), for example `myblog.mydomain.com`
 - `-hostedZoneID`: the AWS hosted zone ID as `arn` (in the policy example, replace `%YOUR_HOSTED_ZONE%` with it as well to allow the script to operate only on this specific zone/domain
+- `verbose`: if false prints only errors and Route53 updates because of cache miss, not cache hits. Useful if you pipe the output to a log file (like I do). Defaulted to true.
 
 
 This is what a call looks like:
 
 ```
 ./dynroute53 -domain=myblog.mydomain.com -hostedZoneID=Z123ABCDE45F67
+```
+
+This is what the crontab entry looks like if you want to run the check every minute:
+
+```
+* * * * * /home/user/dynroute53 -domain=myblog.mydomain.com -hostedZoneID=Z123ABCDE45F67 -verbose=false >> /home/user/logs/cron.log 2>&1
 ```
 
 ### Build
