@@ -7,17 +7,15 @@ import (
 	"net/http"
 	"os"
 	"strings"
-	"time"
-
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/route53"
+	"log"
 )
 
 func main() {
 
 	const cacheFilename = "dynroute53.cache"
-	now := time.Now().Format("2006-01-02 15:04:05")
 
 	domain := flag.String("domain", "", "fully qualified domain name to update, eg. blog.mydomain.com")
 	hostedZoneID := flag.String("hostedZoneID", "", "AWS hosted zone ID (user must have permissions")
@@ -31,34 +29,34 @@ func main() {
 
 	ip, err := getCurrentExternalIP()
 	if err != nil {
-		fmt.Println("Error while retrieving external IP", err)
+		log.Println("Error while retrieving external IP", err)
 		return
 	}
 
 	bytes, err := ioutil.ReadFile(cacheFilename)
 	if err != nil {
-		fmt.Println("Error while reading cache for external IP", err)
+		log.Println("Error while reading cache for external IP", err)
 	}
 
 	cachedIP := string(bytes)
 
 	if cachedIP == ip {
 		if *verbose {
-			fmt.Printf("[%s] No need to update:\t%s -> %s (cached %s)\n", now, *domain, ip, cachedIP)
+			log.Printf("No need to update:\t%s -> %s (cached %s)\n", *domain, ip, cachedIP)
 		}
 		return
 	}
 
 	if err := updateAWSRoute53(*domain, *hostedZoneID, ip); err != nil {
-		fmt.Println("Error while updating route53 record", err)
+		log.Println("Error while updating route53 record", err)
 		return
 	}
 
 	if err := ioutil.WriteFile(cacheFilename, []byte(ip), os.ModePerm); err != nil {
-		fmt.Println("Error while updating local cache", err)
+		log.Println("Error while updating local cache", err)
 	}
 
-	fmt.Printf("[%s] Update complete:\t%s -> %s\n", now, *domain, ip)
+	log.Printf("Update complete:\t%s -> %s\n", *domain, ip)
 }
 
 func getCurrentExternalIP() (string, error) {
