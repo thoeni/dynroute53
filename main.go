@@ -4,13 +4,14 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"strings"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/route53"
-	"log"
 )
 
 func main() {
@@ -60,7 +61,7 @@ func main() {
 }
 
 func getCurrentExternalIP() (string, error) {
-	r, err := http.Get("http://ipv4.myexternalip.com/raw")
+	r, err := http.Get("https://api.ipify.org")
 	if err != nil || r.StatusCode != 200 {
 		return "", err
 	}
